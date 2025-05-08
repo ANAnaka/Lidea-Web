@@ -1,0 +1,164 @@
+/* Общий стиль */
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fc;
+}
+
+h1 {
+    text-align: center;
+}
+
+
+/* Верхнее меню */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5c8001;
+    padding: 10px 20px;
+    color: white;
+}
+
+.logo img {
+    height: 40px;
+}
+
+/* Навигация */
+.nav a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+/* Кнопка выхода */
+.logout form {
+    margin: 0;
+}
+
+.logout button {
+    background-color: #4a6508;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logout button:hover {
+    background-color: #3a5106;
+}
+
+/* Основной блок */
+.main-content {
+    padding: 40px;
+    text-align: center;
+}
+
+/* Фильтры */
+.filter-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-buttons a {
+    padding: 8px 14px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.filter-buttons a:hover {
+    background-color: #ddd;
+}
+
+.filter-buttons a.active {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* Список товаров */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.reset-button {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 8px 14px;
+    background-color: #d32f2f; /* насыщенно-красный */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+    background-color: #b71c1c; /* темно-красный при наведении */
+}
+
+
+
+.product-card {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+    padding: 15px;
+}
+
+.product-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.product-card h3 {
+    margin: 10px 0;
+}
+
+.product-card .description {
+    font-size: 14px;
+    color: #444;
+    margin: 10px 0;
+    height: 40px;
+    overflow: hidden;
+}
+
+.product-card button {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-card button:hover {
+    background-color: #ff9041;
+}
+
+/* Подвал */
+.footer {
+    background-color: #eeeeee;
+    text-align: center;
+    padding: 0px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+    color: #555;
+}

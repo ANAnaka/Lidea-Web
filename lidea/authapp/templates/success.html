@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Lidea - Главная страница</title>
+    <link rel="icon" href="{% static 'image/urls_logo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+
+    <!-- Верхнее меню -->
+    <header class="header">
+        <div class="logo">
+            <img src="{% static 'image/logo.png' %}" alt="Lidea">
+        </div>
+        <nav class="nav">
+            <a href="#">Главная</a>
+            <a href="/rating">Рейтинг товаров</a>
+            <a href="/accounting">Учёт заказов</a>
+            <a href="/supply_history">Поставки</a>
+        </nav>
+        <div class="logout">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Выход</button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Основной блок -->
+    <main class="main-content">
+        <div class="container">
+            <h2>Затраченный товар по диапазону дат</h2>
+
+            <form method="get" class="filter-form">
+                <label>С: <input type="text" name="start_date" value="{{ start_date }}" placeholder="ДД.ММ.ГГГГ" required></label>
+                <label>по: <input type="text" name="end_date" value="{{ end_date }}" placeholder="ДД.ММ.ГГГГ" required></label>
+                <button type="submit" class="submits">Показать</button>
+                <a href="{% url 'success' %}" class="reset-button">Сбросить</a>
+            </form>
+
+            <canvas id="productChart" width="600" height="400"></canvas>
+
+            {{ data|json_script:"chart-data" }}
+
+            <script>
+                const rawData = JSON.parse(document.getElementById("chart-data").textContent);
+                console.log("Данные для графика:", rawData);
+
+                if (rawData.length === 0) {
+                    alert("Нет данных для отображения.");
+                } else {
+                    const labels = rawData.map(item => item.date);
+                    const data = rawData.map(item => item.quantity);
+
+                    const ctx = document.getElementById('productChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Затраченное количество',
+                                data: data,
+                                backgroundColor: '#5c8001'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: { beginAtZero: true }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const index = context.dataIndex;
+                                            const quantity = context.raw;
+                                            const productName = rawData[index].product_names;
+                                            return `${productName}: ${quantity}`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            </script>
+
+            <script>
+                flatpickr("input[name='start_date']", { dateFormat: "d.m.Y" });
+                flatpickr("input[name='end_date']", { dateFormat: "d.m.Y" });
+            </script>
+
+        </div>
+    </main>
+
+    <!-- Нижний блок -->
+    <footer class="footer">
+        <p>&copy; 2025 Lidea. Все права защищены.</p>
+    </footer>
+
+</body>
+</html>

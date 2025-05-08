@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Lidea — Учёт заказов</title>
+    <link rel="icon" href="{% static 'image/urls_logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/order_style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">
+        <img src="{% static 'image/logo.png' %}" alt="Lidea">
+    </div>
+    <nav class="nav">
+        <a href="/success">Главная</a>
+        <a href="/rating">Рейтинг товаров</a>
+        <a href="/accounting">Учёт заказов</a>
+        <a href="/supply_history">Поставки</a>
+
+    </nav>
+    <div class="logout">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Выход</button>
+        </form>
+    </div>
+</header>
+
+<main class="main-content">
+    
+    <!-- Выгрузка в Excel -->
+    <section class="export-section">
+        <form method="get" action="{% url 'export_orders_excel' %}">
+            <input type="hidden" name="start_date" value="{{ start_date }}">
+            <input type="hidden" name="end_date" value="{{ end_date }}">
+            <input type="hidden" name="courier" value="{{ selected_courier }}">
+            <input type="hidden" name="status" value="{{ status }}">
+            <button type="submit" class="export-button">Выгрузить в Excel</button>
+        </form>
+    </section>
+    
+    <h1>Аналитика заказов</h1>
+    <!-- Фильтры -->
+    <form method="get" action="{% url 'accounting' %}">
+        <section class="filters">
+            <div>
+                <label for="start_date">Дата начала</label>
+                <input type="text" id="start_date" name="start_date" placeholder="Выберите дату" value="{{ start_date }}">
+            </div>
+            <div>
+                <label for="end_date">Дата конца</label>
+                <input type="text" id="end_date" name="end_date" placeholder="Выберите дату" value="{{ end_date }}">
+            </div>
+            <div>
+                <label for="status">Статус</label>
+                <select id="status" name="status">
+                    <option value="">Все</option>
+                    <option value="Создан" {% if status == 'Создан' %}selected{% endif %}>Создан</option>
+                    <option value="Выдан" {% if status == 'Выдан' %}selected{% endif %}>Выдан</option>
+                    <option value="Товар едет к Вам" {% if status == 'Товар едет к Вам' %}selected{% endif %}>Товар едет к Вам</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Применить фильтры</button>
+            </div>
+        </section>
+    </form>
+
+    <!-- Заказы -->
+    <section>
+        <h2>Детализация заказов</h2>
+        <div class="orders-grid">
+            {% for order in orders %}
+                <div class="order-card">
+                    <h3>Заказ № {{ order.id }}</h3>
+                    <p><strong>Дата:</strong> {{ order.order_date }}</p>
+                    <p><strong>Адрес:</strong> {{ order.order_address }}</p>
+                    <p><strong>Курьер:</strong> {{ order.id_courier|default:"Не назначен" }}</p>
+                    <p><strong>Статус:</strong> {{ order.name_order_status }}</p>
+                    <ul>
+                        {% for product in order.products %}
+                            <li>{{ product.product_name }} — {{ product.quantity_products_order }} x {{ product.product_price }} ₽</li>
+                        {% endfor %}
+                    </ul>
+                    <p><strong>Итого:</strong> {{ order.order_cost }} ₽ + {{ order.order_delivery_cost }} ₽ (доставка)</p>
+                </div>
+            {% empty %}
+                <p>Нет заказов за выбранный период.</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>&copy; 2025 Lidea. Все права защищены.</p>
+</footer>
+
+<script>
+    flatpickr("#start_date", { dateFormat: "d.m.Y" });
+    flatpickr("#end_date", { dateFormat: "d.m.Y" });
+</script>
+
+</body>
+</html>

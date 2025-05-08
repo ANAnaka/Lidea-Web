@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Lidea — История поставок</title>
+    <link rel="icon" href="{% static 'image/urls_logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/supply-history.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">
+        <img src="{% static 'image/logo.png' %}" alt="Lidea">
+    </div>
+    <nav class="nav">
+        <a href="/success">Главная</a>
+        <a href="/rating">Рейтинг товаров</a>
+        <a href="/accounting">Учёт заказов</a>
+        <a href="/supply_history">Поставки</a>
+    </nav>
+    <div class="logout">
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+            <button type="submit">Выход</button>
+        </form>
+    </div>
+</header>
+
+<main class="main-content">
+
+    <!-- Excel -->
+    <section class="export-section">
+        <form method="get" action="{% url 'generate_excel_report' %}">
+            <input type="hidden" name="supply_name" value="{{ supply_name_filter }}">
+            <input type="hidden" name="product_name" value="{{ product_name_filter }}">
+            <input type="hidden" name="min_quantity" value="{{ min_quantity_filter }}">
+            <button type="submit" class="export-button">Выгрузить в Excel</button>
+        </form>
+    </section>
+    
+    
+    
+    <h1>Аналитика поставок</h1>
+
+    <!-- Фильтры -->
+    <section class="filters">
+        <form method="GET">
+            <div>
+                <label for="supply_name">Поставщик:</label>
+                <input type="text" name="supply_name" id="supply_name" value="{{ supply_name_filter }}">
+            </div>
+            <div>
+                <label for="product_name">Товар:</label>
+                <input type="text" name="product_name" id="product_name" value="{{ product_name_filter }}">
+            </div>
+            <div>
+                <label for="min_quantity">Мин. количество:</label>
+                <input type="number" name="min_quantity" id="min_quantity" value="{{ min_quantity_filter }}">
+            </div>
+            <div>
+                <button type="submit"  class="filter-btn">Применить фильтры</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Таблица -->
+    <section class="table-section">
+        <h2>Детализация</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Поставщик</th>
+                    <th>Общее количество</th>
+                    <th>Товары</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in chart_data %}
+                    <tr>
+                        <td>{{ entry.supply_name }}</td>
+                        <td>{{ entry.total_quantity }}</td>
+                        <td>
+                            <ul>
+                                {% for product in entry.products %}
+                                    <li>{{ product.product_name }} — {{ product.quantity }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">Нет данных для отображения</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+
+    <!-- График -->
+    <section class="chart-section">
+        <h2>График поставок</h2>
+        <canvas id="supplyPieChart" ></canvas>
+    
+        <script>
+            const chartItems = {{ chart_items_json|safe }};
+            const labels = chartItems.map(item => item.label);
+            const data = chartItems.map(item => item.quantity);
+    
+            const ctx = document.getElementById('supplyPieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Поставки',
+                        data: data,
+                        backgroundColor: [
+                            '#5c8001', '#8cbf26', '#c4e17f', '#ffbb33', '#ff4444', '#33b5e5', '#aa66cc', '#0099CC'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw}`;
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        </script>
+    </section>
+    
+
+    
+
+
+</main>
+
+<footer class="footer">
+    <p>&copy; 2025 Lidea. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

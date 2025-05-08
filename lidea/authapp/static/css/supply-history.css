@@ -1,0 +1,82 @@
+.main-content {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.filters form {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.filters label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.filters input {
+    padding: 5px;
+}
+
+.table-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-section th,
+.table-section td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.chart-section {
+    margin: 30px auto;              
+    width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chart-img {
+    max-width: 100%;
+    height: auto;
+}
+
+.export-section {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.export-button {
+    background-color: #4a6508;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.export-button:hover {
+    background-color: #3a5106;
+}
+
+.filter-btn{
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #86b817;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.filter-btn:hover {
+    background-color: #6e9e13;
+}

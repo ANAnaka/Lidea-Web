@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Lidea - Авторизация</title>
+    <link rel="icon" href="{% static 'image/urls_logo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <!-- Логотип -->
+    <div class="logo-container">
+        <img class="logo" src="{% static 'image/logo.png' %}" alt="Lidea Logo">
+    </div>
+    
+    <!-- Зелёный фон с формой -->
+    <div class="background">
+        <div class="green-block">
+            <h2>Авторизация</h2>
+            <div class="login-container">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="email" name="email" placeholder="Логин" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="password" placeholder="Пароль" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Войти</button>
+                </form>
+                {% if error %}
+                    <p class="error-message">{{ error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
