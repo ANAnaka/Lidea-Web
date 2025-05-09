@@ -1,1 +1,1 @@
-web: gunicorn lidea.wsgi:application
+gunicorn lidea.wsgi:application --chdir lidea
