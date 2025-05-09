@@ -1,0 +1,104 @@
+/* Общие настройки */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+
+/* Логотип */
+.logo-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.logo {
+    width: 200px;
+    height: auto;
+}
+
+/* Фон */
+.background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Основной зелёный фон */
+.green-block {
+    background-color: #86b817;
+    padding: 50px; /* Увеличиваем отступы для зелёного фона */
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px #000;
+    width: 900px;  /* Увеличиваем ширину зелёного фона */
+    height: 600px; /* Увеличиваем высоту зелёного фона */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto; /* Центрируем зелёный фон по горизонтали */
+}
+
+/* Контейнер формы */
+.login-container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px #000;
+    width: 300px; 
+    height: 300px;
+    display: flex; /* Добавляем flexbox для центрирования */
+    flex-direction: column; /* Выравниваем элементы по вертикали */
+    justify-content: center; /* Центрируем по вертикали */
+    align-items: center; /* Центрируем по горизонтали */
+    text-align: center;
+}
+
+/* Заголовок "Авторизация" */
+h2 {
+    margin-bottom: 20px;
+    color: #000;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* Поля ввода */
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #e0e0e0;
+    font-size: 16px;
+}
+
+/* Кнопка отправки */
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #5b7c0a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Наведение на кнопку */
+.submit-btn:hover {
+    background-color: #4a6508;
+}
+
+/* Ошибки */
+.error-message {
+    color: red;
+    margin-top: 15px;
+}

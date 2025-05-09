@@ -26,7 +26,12 @@ SECRET_KEY = "django-insecure-6_)i+n%98^e(h9%qq^@owdaxbjt15%d-@+m@gb47v#_+zybxdc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'lidea-web-production.up.railway.app']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://lidea-web-production.up.railway.app',
+]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
